@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { Header } from "../Components/Header";
+<link rel="stylesheet" href="./a" />;
 
 export default function Home() {
   return (
