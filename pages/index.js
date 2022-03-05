@@ -3,19 +3,20 @@ import { getSession } from "next-auth/react";
 import { Header } from "../Components/Header";
 import { Login } from "../Components/Login";
 import { Sidebar } from "../Components/Sidebar";
+import { Feed } from "../Components/Feed";
 
 export default function Home({ session }) {
-  console.log(session);
   if (!session) return <Login />;
   return (
-    <div>
+    <div className="h-screen bg-gray-100 overflow-hidden">
       <Head>
         <title>Facebook</title>
       </Head>
 
       <Header />
-      <main>
+      <main className="flex">
         <Sidebar />
+        <Feed />
         {/* SideBar */}
         {/* Feed */}
         {/* Widget */}
