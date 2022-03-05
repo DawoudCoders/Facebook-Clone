@@ -47,9 +47,13 @@ export const Header = () => {
       </div>
 
       {/* // header right Header */}
-      <div>
+      <div className="flex items-center sm:space-x-2 justify-end">
         {/* Profile pic will come here */}
         <p className="whitespace-nowrap font-semibold pr-3 ">Dawoud Tanveer</p>
+        <ViewGridIcon className="icon"/>
+        <ChatIcon className="icon"/>
+        <BellIcon className="icon"/>
+        <ChevronDownIcon className="icon"/>
       </div>
     </div>
   );
