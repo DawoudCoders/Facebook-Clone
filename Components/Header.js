@@ -14,10 +14,10 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
 import { HeaderIcon } from "./HeaderIcon";
-import { signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react";
 
 export const Header = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
   return (
     <div className="sticky top-0 z-50 bg-white flex items-center p-2 lg:px-5 shadow-md">
       {/*  header left */}
@@ -59,7 +59,9 @@ export const Header = () => {
           layout="fixed"
         />
 
-        <p className="whitespace-nowrap font-semibold pr-3 ">Dawoud Tanveer</p>
+        <p className="whitespace-nowrap font-semibold pr-3 ">
+          {session.user.name}
+        </p>
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
         <BellIcon className="icon" />
