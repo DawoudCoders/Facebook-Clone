@@ -9,6 +9,7 @@ function InputBox() {
 
   const sendPost = (event) => {
     event.preventDefault();
+    // hello
   };
 
   return (
