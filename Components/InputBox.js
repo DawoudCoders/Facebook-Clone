@@ -6,10 +6,13 @@ import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import { db } from "../firebase";
 import { useState } from "react/cjs/react.development";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useRef } from "react";
 
 function InputBox() {
   const { data: session } = useSession();
   const [inputData, setInputData] = useState("");
+  const [image, setImage] = useState(null);
+  const filepickerRef = useRef(null);
 
   const sendPost = async (event) => {
     event.preventDefault();
@@ -24,6 +27,20 @@ function InputBox() {
     });
     console.log("sfsdf", docRef.id);
     setInputData("");
+  };
+
+  const addImage = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    reader.onload = (readerEvent) => {
+      setImage(readerEvent.target.result);
+    };
+  };
+
+  const removeImage = () => {
+    setImage(null);
   };
 
   return (
@@ -50,6 +67,15 @@ function InputBox() {
             Submit
           </button>
         </form>
+        {image && (
+          <div
+            onClick={removeImage}
+            className="flex flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer"
+          >
+            <img className="h-10 object-contain" src={image} />
+            <p className="text-xs text-red-500 text-center">Remove</p>
+          </div>
+        )}
       </div>
       <div className="flex justify-evenly p-3 border-t">
         <div className="inputIcon">
@@ -57,10 +83,20 @@ function InputBox() {
           <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
         </div>
 
-        <div className="inputIcon">
-          {" "}
+        <div
+          onClick={() => {
+            filepickerRef.current.click();
+          }}
+          className="inputIcon"
+        >
+          <input
+            hidden
+            onChange={addImage}
+            ref={filepickerRef}
+            type="file"
+          ></input>
           <CameraIcon className="h-7 text-green-500" />
-          <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
+          <p className="text-xs sm:text-sm xl:text-base">Photo/Video</p>
         </div>
 
         <div className="inputIcon">
