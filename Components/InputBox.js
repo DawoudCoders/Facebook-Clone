@@ -3,13 +3,27 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
+import { db } from "../firebase";
+import { useState } from "react/cjs/react.development";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 function InputBox() {
   const { data: session } = useSession();
+  const [inputData, setInputData] = useState("");
 
-  const sendPost = (event) => {
+  const sendPost = async (event) => {
     event.preventDefault();
-    // hello
+    console.log("hello");
+
+    const docRef = await addDoc(collection(db, "posts"), {
+      message: inputData,
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image,
+      timestamp: serverTimestamp(),
+    });
+    console.log("sfsdf", docRef.id);
+    setInputData("");
   };
 
   return (
@@ -24,6 +38,10 @@ function InputBox() {
         />
         <form className="flex flex-1">
           <input
+            onChange={(e) => {
+              setInputData(e.target.value);
+            }}
+            value={inputData}
             className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
             type="text"
             placeholder={`what's on your mind, ${session.user.name}?`}
@@ -39,12 +57,14 @@ function InputBox() {
           <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
         </div>
 
-        <div className="inputIcon"> <CameraIcon className="h-7 text-green-500" />
+        <div className="inputIcon">
+          {" "}
+          <CameraIcon className="h-7 text-green-500" />
           <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
         </div>
 
         <div className="inputIcon">
-        <EmojiHappyIcon className="h-7 text-yellow-300" />
+          <EmojiHappyIcon className="h-7 text-yellow-300" />
           <p className="text-xs sm:text-sm xl:text-base">Feeling/Activity</p>
         </div>
       </div>
