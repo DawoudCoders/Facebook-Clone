@@ -7,4 +7,15 @@ module.exports = {
       "scontent-man2-1.xx.fbcdn.net",
     ],
   },
+  future: {
+    webpack5: true,
+  },
+  webpack(config) {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+    };
+
+    return config;
+  },
 };
