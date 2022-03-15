@@ -3,21 +3,29 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import { useState } from "react/cjs/react.development";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useRef } from "react";
+import { getDownloadURL, uploadString, ref } from "firebase/storage";
 
 function InputBox() {
   const { data: session } = useSession();
   const [inputData, setInputData] = useState("");
+  const [test, setTest] = useState("");
   const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
   const filepickerRef = useRef(null);
 
   const sendPost = async (event) => {
     event.preventDefault();
-    console.log("hello");
-
+    //uploading post info to firestore
     const docRef = await addDoc(collection(db, "posts"), {
       message: inputData,
       name: session.user.name,
@@ -25,7 +33,21 @@ function InputBox() {
       image: session.user.image,
       timestamp: serverTimestamp(),
     });
-    console.log("sfsdf", docRef.id);
+    //uploading the img to firebase storage
+    //creating a reference to the image in firebase storage
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
+    //uploading picture to firebase storage
+    uploadString(imageRef, image, "data_url").then((snapshot) => {
+      //downloading url from storage
+      getDownloadURL(imageRef).then((downloadURL) => {
+        setImage(downloadURL);
+        //updating the firestore 'post' to contain the img url 
+        updateDoc(doc(db, "posts", docRef.id), {
+          image: downloadURL,
+        });
+        setTest(downloadURL);
+      });
+    });
     setInputData("");
   };
 
@@ -53,6 +75,7 @@ function InputBox() {
           height={40}
           layout="fixed"
         />
+
         <form className="flex flex-1">
           <input
             onChange={(e) => {
@@ -77,6 +100,7 @@ function InputBox() {
           </div>
         )}
       </div>
+
       <div className="flex justify-evenly p-3 border-t">
         <div className="inputIcon">
           <VideoCameraIcon className="h-7 text-red-500" />
