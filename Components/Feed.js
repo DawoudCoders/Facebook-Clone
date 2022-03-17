@@ -1,5 +1,6 @@
 import Stories from "./Stories";
 import InputBox from "./InputBox";
+import Posts from "./Posts";
 
 export const Feed = () => {
   return (
@@ -7,9 +8,8 @@ export const Feed = () => {
       <div className="mx-auto max-w-md md:max-w-lg lg:max-w-2xl">
         <Stories />
         <InputBox />
+        <Posts/>
       </div>
-
-      {/* Posts*/}
     </div>
   );
 };
