@@ -26,7 +26,6 @@ function InputBox() {
   const sendPost = async (event) => {
     event.preventDefault();
     //uploading post info to firestore
-    console.log(session.user.image);
     const docRef = await addDoc(collection(db, "posts"), {
       message: inputData,
       userImage: session.user.image,
@@ -37,8 +36,8 @@ function InputBox() {
 
     //uploading the img to firebase storage
     //creating a reference to the image in firebase storage
-    const imageRef = ref(storage, `posts/${docRef.id}/image`);
     if (postImage) {
+      const imageRef = ref(storage, `posts/${docRef.id}/image`);
       //uploading picture to firebase storage
       uploadString(imageRef, postImage, "data_url").then(() => {
         //downloading url from storage
@@ -49,11 +48,12 @@ function InputBox() {
             postImage: downloadURL,
           });
           setTest(downloadURL);
+          removeImage();
+          setInputData("");
         });
       });
-      setInputData(null);
-      setPostImage(null);
     }
+    
   };
 
   const addImage = (e) => {
@@ -68,7 +68,6 @@ function InputBox() {
 
   const removeImage = () => {
     setPostImage(null);
-   
   };
 
   return (
