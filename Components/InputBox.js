@@ -25,6 +25,10 @@ function InputBox() {
 
   const sendPost = async (event) => {
     event.preventDefault();
+    
+    if (!inputData.length > 1) {
+      return;
+    }
     //uploading post info to firestore
     const docRef = await addDoc(collection(db, "posts"), {
       message: inputData,
@@ -53,7 +57,6 @@ function InputBox() {
         });
       });
     }
-    
   };
 
   const addImage = (e) => {

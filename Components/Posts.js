@@ -12,7 +12,7 @@ function Posts() {
     <div>
       {realtimePosts &&
         realtimePosts.docs.map((post) => {
-          
+         
           return (
             <Post
               key={post.id}
@@ -20,7 +20,7 @@ function Posts() {
               message={post.data().message}
               email={post.data().email}
               timestamp={post.data().timestamp}
-              userImage={post.data().image}
+              userImage={post.data().userImage}
               postImage={post.data().postImage}
             />
           );

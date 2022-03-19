@@ -2,16 +2,15 @@ import React from "react";
 import Image from "next/image";
 import { ChatAltIcon, ShareIcon, ThumbUpIcon } from "@heroicons/react/outline";
 
-function Post({ key, name, message, email, timestamp, userImage, postImage }) {
+function Post({ name, message, email, timestamp, userImage, postImage }) {
   return (
     <div className="flex flex-col ">
       <div className="p-5 bg-white mt-5 rounded-t-2xl shadow-sm">
         <div className="flex items-center space-x-2">
-          {/* This image needs to take image */}
-
           <img
             className="rounded-full"
             src={userImage}
+            alt="userPic"
             width={40}
             height={40}
           />
@@ -25,10 +24,9 @@ function Post({ key, name, message, email, timestamp, userImage, postImage }) {
         </div>
         <p className="pt-4">{message}</p>
       </div>
-      {/* Change this image && to postImage too  */}
+
       {postImage && (
         <div className="relative h-56 md:h-96 bg-white">
-          {/* This image needs to take postImage */}
           <Image src={postImage} objectFit="cover" layout="fill" />
         </div>
       )}
