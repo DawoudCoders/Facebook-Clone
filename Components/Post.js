@@ -7,9 +7,14 @@ function Post({ key, name, message, email, timestamp, userImage, postImage }) {
     <div className="flex flex-col ">
       <div className="p-5 bg-white mt-5 rounded-t-2xl shadow-sm">
         <div className="flex items-center space-x-2">
-           {/* This image needs to take image */}
-         
-          <img className="rounded-full" src={userImage} width={40} height={40} />
+          {/* This image needs to take image */}
+
+          <img
+            className="rounded-full"
+            src={userImage}
+            width={40}
+            height={40}
+          />
           <div>
             <p className="font-medium">{name}</p>
 

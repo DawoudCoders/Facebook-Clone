@@ -26,6 +26,7 @@ function InputBox() {
   const sendPost = async (event) => {
     event.preventDefault();
     //uploading post info to firestore
+    console.log(session.user.image);
     const docRef = await addDoc(collection(db, "posts"), {
       message: inputData,
       userImage: session.user.image,
@@ -50,7 +51,7 @@ function InputBox() {
           setTest(downloadURL);
         });
       });
-      setInputData("");
+      setInputData(null);
       setPostImage(null);
     }
   };
@@ -67,6 +68,7 @@ function InputBox() {
 
   const removeImage = () => {
     setPostImage(null);
+   
   };
 
   return (

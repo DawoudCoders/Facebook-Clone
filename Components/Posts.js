@@ -5,15 +5,14 @@ import { db } from "../firebase";
 import { collection, doc, setDoc, query, orderBy } from "firebase/firestore";
 
 function Posts() {
-  const [realtimePosts] = useCollection(collection(db, "posts"));
+  const postsRef = collection(db, "posts");
+  const [realtimePosts] = useCollection( query(postsRef, orderBy("timestamp", "desc")));
 
   return (
     <div>
       {realtimePosts &&
         realtimePosts.docs.map((post) => {
-          {
-            console.log(post.data());
-          }
+          
           return (
             <Post
               key={post.id}
