@@ -12,7 +12,7 @@ function Posts() {
       {realtimePosts &&
         realtimePosts.docs.map((post) => {
           {
-            console.log(post.data().timestamp);
+            console.log(post.data());
           }
           return (
             <Post
@@ -21,7 +21,7 @@ function Posts() {
               message={post.data().message}
               email={post.data().email}
               timestamp={post.data().timestamp}
-              image={post.data().image}
+              userImage={post.data().image}
               postImage={post.data().postImage}
             />
           );

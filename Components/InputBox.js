@@ -19,8 +19,8 @@ function InputBox() {
   const { data: session } = useSession();
   const [inputData, setInputData] = useState("");
   const [test, setTest] = useState("");
-  const [image, setImage] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [postImage, setPostImage] = useState(null);
+
   const filepickerRef = useRef(null);
 
   const sendPost = async (event) => {
@@ -28,27 +28,31 @@ function InputBox() {
     //uploading post info to firestore
     const docRef = await addDoc(collection(db, "posts"), {
       message: inputData,
+      userImage: session.user.image,
       name: session.user.name,
       email: session.user.email,
-      image: session.user.image,
       timestamp: serverTimestamp(),
     });
+
     //uploading the img to firebase storage
     //creating a reference to the image in firebase storage
     const imageRef = ref(storage, `posts/${docRef.id}/image`);
-    //uploading picture to firebase storage
-    uploadString(imageRef, image, "data_url").then((snapshot) => {
-      //downloading url from storage
-      getDownloadURL(imageRef).then((downloadURL) => {
-        setImage(downloadURL);
-        //updating the firestore 'post' to contain the img url 
-        updateDoc(doc(db, "posts", docRef.id), {
-          image: downloadURL,
+    if (postImage) {
+      //uploading picture to firebase storage
+      uploadString(imageRef, postImage, "data_url").then(() => {
+        //downloading url from storage
+        getDownloadURL(imageRef).then((downloadURL) => {
+          setPostImage(downloadURL);
+          //updating the firestore 'post' to contain the img url
+          updateDoc(doc(db, "posts", docRef.id), {
+            postImage: downloadURL,
+          });
+          setTest(downloadURL);
         });
-        setTest(downloadURL);
       });
-    });
-    setInputData("");
+      setInputData("");
+      setPostImage(null);
+    }
   };
 
   const addImage = (e) => {
@@ -57,12 +61,12 @@ function InputBox() {
       reader.readAsDataURL(e.target.files[0]);
     }
     reader.onload = (readerEvent) => {
-      setImage(readerEvent.target.result);
+      setPostImage(readerEvent.target.result);
     };
   };
 
   const removeImage = () => {
-    setImage(null);
+    setPostImage(null);
   };
 
   return (
@@ -90,12 +94,12 @@ function InputBox() {
             Submit
           </button>
         </form>
-        {image && (
+        {postImage && (
           <div
             onClick={removeImage}
             className="flex flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer"
           >
-            <img className="h-10 object-contain" src={image} />
+            <img className="h-10 object-contain" src={postImage} />
             <p className="text-xs text-red-500 text-center">Remove</p>
           </div>
         )}

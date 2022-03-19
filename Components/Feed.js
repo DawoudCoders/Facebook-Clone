@@ -13,5 +13,3 @@ export const Feed = () => {
     </div>
   );
 };
-
-// At 2:02:16 of video
