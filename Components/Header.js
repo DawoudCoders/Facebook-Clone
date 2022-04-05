@@ -59,7 +59,7 @@ export const Header = () => {
           layout="fixed"
         />
 
-        <p className="whitespace-nowrap font-semibold pr-3 ">
+        <p className="whitespace-nowrap font-semibold pr-3  ">
           {session.user.name}
         </p>
         <ViewGridIcon className="icon" />

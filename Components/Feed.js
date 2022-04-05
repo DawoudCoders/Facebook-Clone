@@ -2,6 +2,7 @@ import Stories from "./Stories";
 import InputBox from "./InputBox";
 import Posts from "./Posts";
 
+
 export const Feed = () => {
   return (
     <div className="flex-grow h-screen pb-44 pt-6 mr-4 xl:mr-40 overflow-y-auto scrollbar-hide">
@@ -9,6 +10,7 @@ export const Feed = () => {
         <Stories />
         <InputBox />
         <Posts />
+       
       </div>
     </div>
   );

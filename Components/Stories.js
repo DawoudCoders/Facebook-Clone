@@ -3,9 +3,9 @@ import StoryCard from "./StoryCard";
 
 const stories = [
   {
-    name: "Dawoud Coders",
-    src: "https://links.papareact.com/zof",
-    profile: "https://links.papareact.com/l4v",
+    name: "Steve Jobs",
+    src: "/stevejobs.jpg",
+    profile: "/stevie.jpg",
   },
   {
     name: "Elon Musk",
